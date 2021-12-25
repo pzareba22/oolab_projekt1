@@ -10,11 +10,13 @@ application {
     mainClassName = 'agh.ics.oop.proj1.App'
 }
 
+
 repositories {
     mavenCentral()
     javafx {
         version = "17"
-        modules = [ 'javafx.controls' ]
+//        modules = [ 'javafx.controls' ]
+        modules=['javafx.controls', 'javafx.fxml']
     }
 }
 

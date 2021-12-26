@@ -4,16 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class App extends Application {
     public static void main(String[] args){
-        System.out.println("Hello world");
+//        System.out.println("Hello world");
         launch(args);
     }
 
@@ -28,7 +25,7 @@ public class App extends Application {
             e.printStackTrace();
         }
 /*
-    1. pokazać ekran z ustawieniami symulacji
+    1. pokazać ekran z ustawieniami symulacji - DONE
     2. po wciśnięciu guzika na ekranie rozpocząć symulację
     3. w trakcie symulacji pokazywać wykresy
     4. po symulacji pokazać ekran z podsumowaniem

@@ -58,4 +58,9 @@ public class SimulationEngine implements Runnable {
         }
     }
 
+    public boolean getRunning(){
+        boolean res = isRunning;
+        return res;
+    }
+
 }

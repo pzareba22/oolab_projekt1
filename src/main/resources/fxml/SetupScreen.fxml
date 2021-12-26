@@ -4,22 +4,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.proj1.SetupScreenController">
    <children>
-      <TextField layoutX="226.0" layoutY="142.0" />
-      <Text layoutX="257.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość mapy" />
-      <Text layoutX="257.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość mapy" />
-      <TextField layoutX="226.0" layoutY="213.0" />
-      <Text layoutX="252.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość dżungli" />
-      <Text layoutX="252.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość dżungli" />
-      <TextField layoutX="225.0" layoutY="294.0" />
-      <TextField layoutX="226.0" layoutY="380.0" />
-      <TextField layoutX="225.0" layoutY="460.0" />
-      <TextField layoutX="226.0" layoutY="530.0" />
-      <TextField layoutX="226.0" layoutY="593.0" />
-      <Text layoutX="228.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Początkowa liczba zwierząt" />
-      <Text layoutX="247.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zysk energii z trawy" />
-      <Text layoutX="187.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimalna energia potrzebna do kopulacji" />
-      <ChoiceBox layoutX="223.0" layoutY="641.0" prefWidth="150.0" />
+      <TextField fx:id="mapHeight" layoutX="227.0" layoutY="118.0" />
+      <Text layoutX="258.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość mapy" />
+      <Text layoutX="258.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość mapy" />
+      <TextField fx:id="mapWidth" layoutX="227.0" layoutY="189.0" />
+      <Text layoutX="253.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość dżungli" />
+      <Text layoutX="253.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość dżungli" />
+      <TextField fx:id="jungleHeight" layoutX="226.0" layoutY="270.0" />
+      <TextField fx:id="jungleWidth" layoutX="227.0" layoutY="356.0" />
+      <TextField fx:id="animalNumber" layoutX="226.0" layoutY="436.0" />
+      <TextField fx:id="grassEnergy" layoutX="227.0" layoutY="506.0" />
+      <TextField fx:id="breedingEnegry" layoutX="227.0" layoutY="569.0" />
+      <Text layoutX="229.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Początkowa liczba zwierząt" />
+      <Text layoutX="248.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zysk energii z trawy" />
+      <Text layoutX="188.0" layoutY="553.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimalna energia potrzebna do kopulacji" />
+      <ChoiceBox fx:id="evolutionModeBox" layoutX="224.0" layoutY="617.0" prefWidth="150.0" />
+      <Button layoutX="473.0" layoutY="664.0" mnemonicParsing="false" onAction="#switchToMainScreen" text="Start">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

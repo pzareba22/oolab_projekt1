@@ -3,9 +3,12 @@ package agh.ics.oop.proj1;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 
 public class MainScreenController {
+    int[] parameters;
     private int mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry;
     private SimulationEngine[] engines;
     private Thread[] engineThreads;
@@ -15,6 +18,13 @@ public class MainScreenController {
 
     @FXML
     private Button runButton;
+
+    @FXML
+    private GridPane pane1, pane2;
+
+    @FXML
+    private AnchorPane mainPane;
+
 
 //    @FXML
 //    private Button sim1Button, sim2Button;
@@ -42,6 +52,8 @@ public class MainScreenController {
     }
 
     public void loadData(int[] parameters){
+        this.parameters = parameters;
+
         mapHeight = parameters[0];
         mapWidth = parameters[1];
         jungleHeight = parameters[2];
@@ -51,10 +63,26 @@ public class MainScreenController {
         breedingEnegry = parameters[6];
     }
 
-    public void startSimulation(int simulationsNumber){
-        this.simulationsNumber = simulationsNumber;
+    public void startSimulation(int simulationsMode){
+        this.simulationsNumber = switch (simulationsMode){
+            case 2 -> 2;
+            default -> 1;
+        };
+
+        if(simulationsMode < 2){
+            mainPane.getChildren().remove(pane2);
+            pane1.setPrefHeight(550);
+            pane1.setPrefWidth(550);
+            pane1.setLayoutX(494);
+            pane1.setLayoutY(24);
+        }
+
         engines = new SimulationEngine[simulationsNumber];
         engineThreads = new Thread[simulationsNumber];
+
+        Map map1 = new Map(parameters, false, pane1);
+        map1.show();
+
         for (int i = 0; i < simulationsNumber; i++) {
             engines[i] = new SimulationEngine("Engine " + i, 500);
             engineThreads[i] = new Thread(engines[i]);
@@ -75,14 +103,4 @@ public class MainScreenController {
             engines[i].setRunning(false);
         }
     }
-
-//    public void toggleSim1(ActionEvent e){
-//        boolean isRunning = engines[0].getRunning();
-//        engines[0].setRunning(!isRunning);
-//    }
-//
-//    public void toggleSim2(ActionEvent e){
-//        boolean isRunning = engines[1].getRunning();
-//        engines[1].setRunning(!isRunning);
-//    }
 }

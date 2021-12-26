@@ -31,8 +31,8 @@ public class SetupScreenController {
 
     @FXML
     private void initialize() {
-        mapHeight.setText("1");
-        mapWidth.setText("2");
+        mapHeight.setText("5");
+        mapWidth.setText("5");
         jungleHeight.setText("3");
         jungleWidth.setText("4");
         animalNumber.setText("5");
@@ -64,7 +64,14 @@ public class SetupScreenController {
         stage.setScene(scene);
         stage.show();
 
-        mainScreenController.startSimulation(2);
+        int simulationsMode = switch (evolutionModeBox.getValue()) {
+            case "Zwykla" -> 0;
+            case "Magiczna" -> 1;
+            case "Obie" -> 2;
+            default -> 0;
+        };
+
+        mainScreenController.startSimulation(simulationsMode);
     }
 
     private void validateData() throws NumberFormatException {

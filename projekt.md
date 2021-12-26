@@ -16,3 +16,17 @@
 - trawa
 - dżungla (podłoga)
 - sawanna (pustynia)
+
+
+
+##TODO
+- [x] Generowanie dżungli
+- [ ] Prostokąty zamiast obrazków
+- [ ] Generowanie trawy
+- [ ] Zwierzątka
+- [ ] Ruch zwierzątek
+- [ ] "Magiczność" mapy
+- [ ] Rozmnażanie zwierzątek
+- [ ] Klikanie na zwierzątka
+- [ ] Wykresy
+- [ ] Zapisywanie do CSV

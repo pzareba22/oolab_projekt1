@@ -4,27 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="593.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.proj1.MainScreenController">
+<AnchorPane fx:id="mainPane" prefHeight="593.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.proj1.MainScreenController">
    <children>
       <Text layoutX="120.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation">
          <font>
             <Font size="21.0" />
          </font>
       </Text>
-      <GridPane alignment="CENTER" layoutX="361.0" layoutY="21.0" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #ccc;">
-<!--        <columnConstraints>-->
-<!--          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />-->
-<!--          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />-->
-<!--        </columnConstraints>-->
-<!--        <rowConstraints>-->
-<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
-<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
-<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
-<!--        </rowConstraints>-->
-      </GridPane>
+      <GridPane fx:id="pane1" alignment="CENTER" layoutX="398.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #ccc;" />
+      <GridPane fx:id="pane2" layoutX="769.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #ccc;" />
       <Button fx:id="runButton" layoutX="109.0" layoutY="537.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
       <VBox layoutX="87.0" layoutY="102.0" prefHeight="251.0" prefWidth="163.0" style="-fx-background-color: #ddd;" />
-<!--      <Button fx:id="sim1Button" layoutX="61.0" layoutY="430.0" mnemonicParsing="false" onAction="#toggleSim1" text="Sim1" />-->
-<!--      <Button fx:id="sim2Button" layoutX="203.0" layoutY="430.0" mnemonicParsing="false" onAction="#toggleSim2" text="Sim2" />-->
    </children>
 </AnchorPane>

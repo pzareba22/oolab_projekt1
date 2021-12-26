@@ -31,8 +31,8 @@ public class SetupScreenController {
 
     @FXML
     private void initialize() {
-        mapHeight.setText("5");
-        mapWidth.setText("5");
+        mapHeight.setText("15");
+        mapWidth.setText("15");
         jungleHeight.setText("3");
         jungleWidth.setText("4");
         animalNumber.setText("5");

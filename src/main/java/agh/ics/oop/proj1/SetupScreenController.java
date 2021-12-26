@@ -17,9 +17,6 @@ import java.util.Objects;
 
 
 public class SetupScreenController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     private int[] parametersArray;
 
@@ -28,11 +25,20 @@ public class SetupScreenController {
     private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry;
 
     ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna");
+
     @FXML
     private ChoiceBox<String> evolutionModeBox;
 
     @FXML
     private void initialize() {
+        mapHeight.setText("1");
+        mapWidth.setText("2");
+        jungleHeight.setText("3");
+        jungleWidth.setText("4");
+        animalNumber.setText("5");
+        grassEnergy.setText("6");
+        breedingEnegry.setText("7");
+
         evolutionModeBox.setItems(evolutionModeList);
         evolutionModeBox.setValue("Zwykla");
     }
@@ -42,20 +48,23 @@ public class SetupScreenController {
         try{
             validateData();
         }catch (NumberFormatException exception){
-            System.out.println("Nieprawidłowe dane wejściowe");
-            // TODO okienko z alertem
+            AlertWindowHandler.showErrorAlert("Error Awaria", "Niepoprawne dane wejsciowe", "Prosze podac dane, bedace liczbami naturalnymi");
             return;
         }
 
 
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/MainScreen.fxml")));
-        root = loader.load();
-        MainScreenController mainScreenController = loader.getController();
+        Parent root = loader.load();
 
-        stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        MainScreenController mainScreenController = loader.getController();
+        mainScreenController.loadData(parametersArray);
+
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+        mainScreenController.startSimulation(2);
     }
 
     private void validateData() throws NumberFormatException {

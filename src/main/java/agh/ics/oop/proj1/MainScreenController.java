@@ -52,7 +52,7 @@ public class MainScreenController {
         engines = new SimulationEngine[simulationsNumber];
         engineThreads = new Thread[simulationsNumber];
         for (int i = 0; i < simulationsNumber; i++) {
-            engines[i] = new SimulationEngine("Engine " + i, 100);
+            engines[i] = new SimulationEngine("Engine " + i, 500);
             engineThreads[i] = new Thread(engines[i]);
 
             engineThreads[i].setDaemon(true);
@@ -60,19 +60,15 @@ public class MainScreenController {
         }
     }
 
-    // TODO - pauzowanie i wznawianie silników
-
     private void startEngines() {
         for (int i = 0; i < simulationsNumber; i++) {
-            engineThreads[i].notify();
+            engines[i].setRunning(true);
         }
     }
 
     private void stopEngines() throws InterruptedException {
         for (int i = 0; i < simulationsNumber; i++) {
-            synchronized (engineThreads[i]){
-                engineThreads[i].wait();
-            }
+            engines[i].setRunning(false);
         }
 
     }

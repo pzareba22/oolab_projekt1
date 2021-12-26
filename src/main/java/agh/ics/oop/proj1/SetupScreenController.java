@@ -24,7 +24,7 @@ public class SetupScreenController {
     @FXML
     private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry;
 
-    ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna");
+    ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna", "Obie");
 
     @FXML
     private ChoiceBox<String> evolutionModeBox;

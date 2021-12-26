@@ -48,18 +48,6 @@ public class SetupScreenController {
         }
 
 
-//        System.out.println("\nData entered");
-//        System.out.println("wysokość mapy: " + mapHeight.getText());
-//        System.out.println("szerokość mapy: " + mapWidth.getText());
-//        System.out.println("wysokość dżungli: " + jungleHeight.getText());
-//        System.out.println("szerokość dżungli: " + jungleWidth.getText());
-//        System.out.println("liczba zwierząt: " + animalNumber.getText());
-//        System.out.println("energia trawy: " + grassEnergy.getText());
-//        System.out.println("energia do rozmnażania się: " + breedingEnegry.getText());
-//        System.out.println("tryb ewolucji: " + evolutionModeBox.getValue());
-
-
-
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/MainScreen.fxml")));
         root = loader.load();
         MainScreenController mainScreenController = loader.getController();

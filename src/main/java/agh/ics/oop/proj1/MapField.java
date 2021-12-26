@@ -10,13 +10,12 @@ public class MapField {
     public final ImageView imageView;
 
 
-    MapField(String imgPath, int squareSide) {
+    MapField(String imgPath, double squareSide) {
         this.objectsList = new LinkedList<>();
-        Image image = new Image(imgPath);
+        Image image = new Image(imgPath, 50, 50, false, false);
         this.imageView = new ImageView(image);
         this.imageView.setFitWidth(squareSide);
         this.imageView.setFitHeight(squareSide);
-        this.imageView.setStyle("-fx-border-color: black; -fx-border-width: 5");
 
     }
 

@@ -12,8 +12,12 @@ public class MainScreenController {
     private boolean running;
     private int simulationsNumber;
 
+
     @FXML
     private Button runButton;
+
+//    @FXML
+//    private Button sim1Button, sim2Button;
 
     @FXML
     private void initialize(){
@@ -70,6 +74,15 @@ public class MainScreenController {
         for (int i = 0; i < simulationsNumber; i++) {
             engines[i].setRunning(false);
         }
-
     }
+
+//    public void toggleSim1(ActionEvent e){
+//        boolean isRunning = engines[0].getRunning();
+//        engines[0].setRunning(!isRunning);
+//    }
+//
+//    public void toggleSim2(ActionEvent e){
+//        boolean isRunning = engines[1].getRunning();
+//        engines[1].setRunning(!isRunning);
+//    }
 }

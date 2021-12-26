@@ -11,17 +11,20 @@
             <Font size="21.0" />
          </font>
       </Text>
-      <GridPane layoutX="349.0" layoutY="55.0" prefHeight="482.0" prefWidth="558.0" style="-fx-background-color: #ccc;">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <GridPane alignment="CENTER" layoutX="361.0" layoutY="21.0" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #ccc;">
+<!--        <columnConstraints>-->
+<!--          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />-->
+<!--          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />-->
+<!--        </columnConstraints>-->
+<!--        <rowConstraints>-->
+<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
+<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
+<!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />-->
+<!--        </rowConstraints>-->
       </GridPane>
-      <Button fx:id="runButton" layoutX="561.0" layoutY="545.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
+      <Button fx:id="runButton" layoutX="109.0" layoutY="537.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
+      <VBox layoutX="87.0" layoutY="102.0" prefHeight="251.0" prefWidth="163.0" style="-fx-background-color: #ddd;" />
+<!--      <Button fx:id="sim1Button" layoutX="61.0" layoutY="430.0" mnemonicParsing="false" onAction="#toggleSim1" text="Sim1" />-->
+<!--      <Button fx:id="sim2Button" layoutX="203.0" layoutY="430.0" mnemonicParsing="false" onAction="#toggleSim2" text="Sim2" />-->
    </children>
 </AnchorPane>

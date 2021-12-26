@@ -11,9 +11,9 @@
             <Font size="21.0" />
          </font>
       </Text>
-      <GridPane fx:id="pane1" alignment="CENTER" layoutX="398.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #ccc;" />
-      <GridPane fx:id="pane2" layoutX="769.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #ccc;" />
+      <GridPane fx:id="pane1" alignment="CENTER" layoutX="398.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #97f227;" />
+      <GridPane fx:id="pane2" layoutX="769.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #97f227;" />
       <Button fx:id="runButton" layoutX="109.0" layoutY="537.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
-      <VBox layoutX="87.0" layoutY="102.0" prefHeight="251.0" prefWidth="163.0" style="-fx-background-color: #ddd;" />
+      <VBox layoutX="79.0" layoutY="104.0" prefHeight="379.0" prefWidth="201.0" style="-fx-background-color: #ddd;" />
    </children>
 </AnchorPane>

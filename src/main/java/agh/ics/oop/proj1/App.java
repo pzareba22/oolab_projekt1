@@ -35,36 +35,7 @@ public class App extends Application {
  */
 
         primaryStage.setTitle("Simulation");
-//        Pokazać nowy ekran
-//        Wczytać na nim parametry
-
         primaryStage.show();
 
-
-
-
-
-
-//        primaryStage.setTitle("Henlo");
-//        StackPane root = new StackPane();
-//        AtomicBoolean red = new AtomicBoolean(false);
-//
-//        Button btn = new Button();
-//        btn.setText("Say 'Hello World'");
-//        btn.setOnAction(event -> {
-//            System.out.println("Hello World!");
-//            if(red.get()){
-//                btn.setStyle("-fx-background-color: #f00");
-//            }else{
-//                btn.setStyle("-fx-background-color: #0f0");
-//            }
-//            red.set(!red.get());
-//        });
-//
-//        root.getChildren().add(btn);
-//
-//
-//        primaryStage.setScene(new Scene(root, 600, 800));
-//        primaryStage.show();
     }
 }

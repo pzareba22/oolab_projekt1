@@ -75,4 +75,8 @@ public class Animal{
         int index = random.nextInt(32);
         int move = genotype[index];
     }
+
+    public Vector2d getPosition(){
+        return this.position;
+    }
 }

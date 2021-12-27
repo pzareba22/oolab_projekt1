@@ -22,7 +22,7 @@ public class SetupScreenController {
 
 
     @FXML
-    private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry;
+    private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnergy, refreshFrequency;
 
     ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna", "Obie");
 
@@ -37,7 +37,8 @@ public class SetupScreenController {
         jungleWidth.setText("4");
         animalNumber.setText("5");
         grassEnergy.setText("6");
-        breedingEnegry.setText("7");
+        breedingEnergy.setText("7");
+        refreshFrequency.setText("400");
 
         evolutionModeBox.setItems(evolutionModeList);
         evolutionModeBox.setValue("Zwykla");
@@ -75,14 +76,21 @@ public class SetupScreenController {
     }
 
     private void validateData() throws NumberFormatException {
-        parametersArray = new int[7];
+        parametersArray = new int[8];
         parametersArray[0] = Integer.parseInt(mapHeight.getText());
         parametersArray[1] = Integer.parseInt(mapWidth.getText());
         parametersArray[2] = Integer.parseInt(jungleHeight.getText());
         parametersArray[3] = Integer.parseInt(jungleWidth.getText());
         parametersArray[4] = Integer.parseInt(animalNumber.getText());
         parametersArray[5] = Integer.parseInt(grassEnergy.getText());
-        parametersArray[6] = Integer.parseInt(breedingEnegry.getText());
+        parametersArray[6] = Integer.parseInt(breedingEnergy.getText());
+        parametersArray[7] = Integer.parseInt(refreshFrequency.getText());
+        for (int i = 0; i < 8; i++) {
+            if(parametersArray[i] < 0){
+                throw new NumberFormatException();
+            }
+
+        }
     }
 
 }

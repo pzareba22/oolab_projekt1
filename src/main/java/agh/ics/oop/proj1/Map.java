@@ -81,9 +81,7 @@ public class Map {
 
         gridPane.add(rectangle, this.jungleX, this.jungleY, jungleWidth, jungleHeight);
 
-
     }
-
 
     public boolean canMoveTo(Vector2d position){
         return animalMap.containsKey(position);
@@ -94,12 +92,12 @@ public class Map {
             for (int j = 0; j < height; j++) {
                 Vector2d position = new Vector2d(i, j);
                 if(animalMap.containsKey(position)){
-                    Circle animalCricle = new Circle();
-                    animalCricle.setRadius(gridSquareSide/2);
-                    animalCricle.setFill(javafx.scene.paint.Color.web("#c22"));
-                    gridPane.add(animalCricle, i, j, 1, 1);
-                    GridPane.setHalignment(animalCricle, HPos.CENTER);
-                    GridPane.setValignment(animalCricle, VPos.CENTER);
+                    Circle animalCircle = new Circle();
+                    animalCircle.setRadius(gridSquareSide/2);
+                    animalCircle.setFill(javafx.scene.paint.Color.web("#c22"));
+                    gridPane.add(animalCircle, i, j, 1, 1);
+                    GridPane.setHalignment(animalCircle, HPos.CENTER);
+                    GridPane.setValignment(animalCircle, VPos.CENTER);
                 }else if (grassMap.contains(position)) {
                     Rectangle grassRectangle = new Rectangle();
                     grassRectangle.setHeight(gridSquareSide * 0.9);

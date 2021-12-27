@@ -9,8 +9,9 @@ import javafx.scene.layout.GridPane;
 
 public class MainScreenController {
     int[] parameters;
-    private int mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry;
+    private int mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry, refreshFrequency;
     private SimulationEngine[] engines;
+    private Map[] maps;
     private Thread[] engineThreads;
     private boolean running;
     private int simulationsNumber;
@@ -61,6 +62,7 @@ public class MainScreenController {
         animalNumber = parameters[4];
         grassEnergy = parameters[5];
         breedingEnegry = parameters[6];
+        refreshFrequency = parameters[7];
     }
 
     public void startSimulation(int simulationsMode){
@@ -79,12 +81,24 @@ public class MainScreenController {
 
         engines = new SimulationEngine[simulationsNumber];
         engineThreads = new Thread[simulationsNumber];
+        maps = new Map[simulationsNumber];
 
-        Map map1 = new Map(parameters, false, pane1);
-        map1.show();
+        switch (simulationsMode){
+            case 2 -> {
+                maps[0] = new Map(parameters, false, pane1);
+                maps[1] = new Map(parameters, true, pane2);
+            }
+            case 1 -> {
+                maps[0] = new Map(parameters, true, pane1);
+            }
+            default -> {
+                maps[0] = new Map(parameters, false, pane1);
+            }
+        }
+
 
         for (int i = 0; i < simulationsNumber; i++) {
-            engines[i] = new SimulationEngine("Engine " + i, 500);
+            engines[i] = new SimulationEngine("Engine " + i, refreshFrequency, maps[i]);
             engineThreads[i] = new Thread(engines[i]);
 
             engineThreads[i].setDaemon(true);

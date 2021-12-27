@@ -17,7 +17,7 @@ public class Animal{
     private final int[] genotype;
     private Vector2d position;
 
-    Animal(Vector2d position) {
+    Animal(Vector2d position, int energy) {
         this.genotype = new int[32];
         this.position = position;
     }

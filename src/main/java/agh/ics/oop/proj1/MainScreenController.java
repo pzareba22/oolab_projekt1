@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
 
 public class MainScreenController {
     int[] parameters;
-    private int mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnegry, refreshFrequency;
+    private int mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, startEnergy, refreshFrequency;
     private SimulationEngine[] engines;
     private Map[] maps;
     private Thread[] engineThreads;
@@ -61,7 +61,7 @@ public class MainScreenController {
         jungleWidth = parameters[3];
         animalNumber = parameters[4];
         grassEnergy = parameters[5];
-        breedingEnegry = parameters[6];
+        startEnergy = parameters[6];
         refreshFrequency = parameters[7];
     }
 

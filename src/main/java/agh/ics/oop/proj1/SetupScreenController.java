@@ -22,7 +22,7 @@ public class SetupScreenController {
 
 
     @FXML
-    private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, breedingEnergy, refreshFrequency;
+    private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, startEnergy, refreshFrequency;
 
     ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna", "Obie");
 
@@ -37,7 +37,7 @@ public class SetupScreenController {
         jungleWidth.setText("4");
         animalNumber.setText("5");
         grassEnergy.setText("6");
-        breedingEnergy.setText("7");
+        startEnergy.setText("7");
         refreshFrequency.setText("400");
 
         evolutionModeBox.setItems(evolutionModeList);
@@ -83,7 +83,7 @@ public class SetupScreenController {
         parametersArray[3] = Integer.parseInt(jungleWidth.getText());
         parametersArray[4] = Integer.parseInt(animalNumber.getText());
         parametersArray[5] = Integer.parseInt(grassEnergy.getText());
-        parametersArray[6] = Integer.parseInt(breedingEnergy.getText());
+        parametersArray[6] = Integer.parseInt(startEnergy.getText());
         parametersArray[7] = Integer.parseInt(refreshFrequency.getText());
         for (int i = 0; i < 8; i++) {
             if(parametersArray[i] < 0){

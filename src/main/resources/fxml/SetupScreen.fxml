@@ -16,10 +16,10 @@
       <TextField fx:id="jungleWidth" layoutX="227.0" layoutY="289.0" />
       <TextField fx:id="animalNumber" layoutX="226.0" layoutY="369.0" />
       <TextField fx:id="grassEnergy" layoutX="227.0" layoutY="439.0" />
-      <TextField fx:id="breedingEnergy" layoutX="227.0" layoutY="502.0" />
+      <TextField fx:id="startEnergy" layoutX="227.0" layoutY="502.0" />
       <Text layoutX="229.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Początkowa liczba zwierząt" />
       <Text layoutX="248.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zysk energii z trawy" />
-      <Text layoutX="188.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimalna energia potrzebna do kopulacji" />
+      <Text layoutX="220.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Początkowa energia zwierzęcia" />
       <ChoiceBox fx:id="evolutionModeBox" layoutX="224.0" layoutY="625.0" prefWidth="150.0" />
       <Button layoutX="473.0" layoutY="664.0" mnemonicParsing="false" onAction="#switchToMainScreen" text="Start">
          <font>

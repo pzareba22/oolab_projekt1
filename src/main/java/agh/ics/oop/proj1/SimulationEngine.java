@@ -8,20 +8,23 @@ package agh.ics.oop.proj1;
  */
 
 
+import javafx.application.Platform;
 
 public class SimulationEngine implements Runnable {
 
     public final int refreshTime;
     public final String engineName;
     private int dayCount;
+    private final Map map;
 
 
     private volatile boolean isRunning;
     private final Object lock;
 
-    SimulationEngine(String engineName, int refreshTime){
+    SimulationEngine(String engineName, int refreshTime, Map map){
         this.engineName = engineName;
         this.refreshTime = refreshTime;
+        this.map = map;
         this.isRunning = true;
         this.lock = new Object();
     }
@@ -45,7 +48,11 @@ public class SimulationEngine implements Runnable {
             } catch (InterruptedException e) {
             }
 
+            map.generateGrass();
+            Platform.runLater(() -> map.show());
             System.out.println(engineName + ":\tYet another day passes (" + ++dayCount + ")");
+
+
         }
     }
 

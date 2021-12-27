@@ -1,5 +1,7 @@
 package agh.ics.oop.proj1;
 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -8,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Map {
     public final int width;
@@ -24,6 +27,7 @@ public class Map {
     public final int jungleY;
     public final boolean[][] foodMap;
     public final HashMap<Vector2d, Animal> animalMap;
+    public final HashSet<Vector2d> grassMap;
 
     Map(int[] parameters, boolean isMagical, GridPane gridPane){
 
@@ -40,6 +44,7 @@ public class Map {
         this.gridSquareSide = calculateGridSquareSide();
         this.foodMap = new boolean[width][height];
         this.animalMap = new HashMap<>();
+        this.grassMap = new HashSet<>();
 
 
 
@@ -57,11 +62,14 @@ public class Map {
             gridPane.getRowConstraints().add(constraints);
         }
 
+
 //      umieszczenie prostokąta z dżunglą
         Rectangle rectangle = new Rectangle();
         rectangle.setFill(javafx.scene.paint.Color.web("#1b6b05"));
         rectangle.setWidth(jungleWidth);
         rectangle.setHeight(jungleHeight);
+        GridPane.setHalignment(rectangle, HPos.CENTER);
+        GridPane.setValignment(rectangle, VPos.CENTER);
 
         this.jungleX = (width-jungleWidth) / 2;
         this.jungleY = (height-jungleHeight) / 2;
@@ -79,8 +87,6 @@ public class Map {
 
     public boolean canMoveTo(Vector2d position){
         return animalMap.containsKey(position);
-//        MapElement element = fieldsMap[position.x][position.y].getTopElement();
-//        return (!(element instanceof Animal));
     }
 
     public void show(){
@@ -88,11 +94,21 @@ public class Map {
             for (int j = 0; j < height; j++) {
                 Vector2d position = new Vector2d(i, j);
                 if(animalMap.containsKey(position)){
-
+                    Circle animalCricle = new Circle();
+                    animalCricle.setRadius(gridSquareSide/2);
+                    animalCricle.setFill(javafx.scene.paint.Color.web("#c22"));
+                    gridPane.add(animalCricle, i, j, 1, 1);
+                    GridPane.setHalignment(animalCricle, HPos.CENTER);
+                    GridPane.setValignment(animalCricle, VPos.CENTER);
+                }else if (grassMap.contains(position)) {
+                    Rectangle grassRectangle = new Rectangle();
+                    grassRectangle.setHeight(gridSquareSide * 0.9);
+                    grassRectangle.setWidth(gridSquareSide * 0.9);
+                    grassRectangle.setFill(javafx.scene.paint.Color.web("#12f50a"));
+                    gridPane.add(grassRectangle, i, j, 1, 1);
+                    GridPane.setHalignment(grassRectangle, HPos.CENTER);
+                    GridPane.setValignment(grassRectangle, VPos.CENTER);
                 }
-//                if(fieldsMap[i][j] != null){
-//                    gridPane.add(fieldsMap[i][j].imageView, i, j, 1, 1);
-//                }
             }
         }
         Circle circle = new Circle();
@@ -110,6 +126,42 @@ public class Map {
 
         return Math.min(xSize, ySize);
 
+    }
+
+
+    // funkcja generująca 2 'porcje' trawy (w dżungli i poza nią)
+    public void generateGrass(){
+        //generowanie trawy w dżungli
+        Random random = new Random();
+        for (int i = 0; i < jungleWidth*jungleHeight; i++){
+            int x1 = (width - jungleWidth)/2 + random.nextInt(jungleWidth);
+            int y1 = (height - jungleHeight)/2 + random.nextInt(jungleHeight);
+            Vector2d position1 = new Vector2d(x1, y1);
+            if(!grassMap.contains(position1)){
+                grassMap.add(position1);
+                break;
+            }
+        }
+        //generowanie trawy poza dżunglą
+        for (int i = 0; i < width*height; i++) {
+            int x2 = random.nextInt(width);
+            int y2 = random.nextInt(height);
+
+            if(x2 >= (width - jungleWidth)/2 && y2 >= (height - jungleHeight)/2){
+                int choice = random.nextInt(2);
+                switch (choice){
+                    case 1 -> y2 += jungleHeight;
+                    default -> x2 += jungleWidth;
+                }
+            }
+
+//            }
+            Vector2d position2 = new Vector2d(x2, y2);
+            if(!grassMap.contains(position2)){
+                grassMap.add(position2);
+                break;
+            }
+        }
     }
 
 }

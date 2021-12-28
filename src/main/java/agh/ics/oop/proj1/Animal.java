@@ -5,13 +5,6 @@ import java.util.Random;
 public class Animal{
 
 
-    /*
-        Pytania:
-        - Jakie geny mają mieć pierwsze zwierzęta? (losowe?)
-        - Czy zwierzęta mogą stać na tym samym polu? - tak
-     */
-
-
     private int orientation;
     private int energy;
     private final int[] genotype;
@@ -28,8 +21,7 @@ public class Animal{
     }
 
     public int getEnergy(){
-        final int res = energy;
-        return res;
+        return energy;
     }
 
     public void generateRandomGenotype(){
@@ -45,7 +37,6 @@ public class Animal{
         }
 
         int sum2 = 0;
-
         for (int i = 0; i < 8; i++) {
             numbers[i] /= sum;
             numbers[i] *= 32;
@@ -66,13 +57,6 @@ public class Animal{
                 ind++;
             }
         }
-
-        System.out.print("Animal generated a random genotype: ");
-        for (int i = 0; i < 32; i++) {
-            System.out.print(genotype[i]);
-        }
-        System.out.println();
-
     }
 
     public void move(){

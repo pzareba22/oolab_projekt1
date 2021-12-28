@@ -10,6 +10,7 @@ package agh.ics.oop.proj1;
 
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -42,8 +43,7 @@ public class SimulationEngine implements Runnable {
                 Vector2d position = new Vector2d(x, y);
                 if(!positions.contains(position)){
                     positions.add(position);
-                    Animal animal = new Animal(position, map.startEnergy, this.map);
-                    animal.generateRandomGenotype();
+                    Animal animal = new Animal(position, map.startEnergy, this.map, null);
                     this.animalsList.add(animal);
                     this.map.place(animal);
                     break;
@@ -58,6 +58,7 @@ public class SimulationEngine implements Runnable {
         Platform.runLater(map::show);
         while(true){
             if(animalsList.isEmpty()){
+                Platform.runLater( () -> AlertWindowHandler.showInfoAlert("Symulacja sie skonczyla", "", ""));
                 break;
             }
             synchronized (lock) {
@@ -70,6 +71,7 @@ public class SimulationEngine implements Runnable {
                 Thread.sleep(refreshTime);
             } catch (InterruptedException ignored) {}
 
+            // ruchy zwierzat
             for(Animal animal: animalsList){
                 animal.move();
                 animal.decreaseEnergy(1);
@@ -78,11 +80,23 @@ public class SimulationEngine implements Runnable {
                 }
             }
             Platform.runLater(map::show);
+            //usuwanie zwłok
+            map.removeDead();
+            Platform.runLater(map::show);
+            //zjadanie trawy
             map.eatGrass();
             Platform.runLater(map::show);
-            map.generateGrass();
+
+            //rozmnażanie zwierząt
+            ArrayList<Animal> animalsToBreed = map.selectAnimalsForBreeding();
+            for (int i = 0; i < animalsToBreed.size(); i+=2) {
+                Animal child = animalsToBreed.get(i).breed(animalsToBreed.get(i+1));
+                animalsList.add(child);
+                map.place(child);
+            }
             Platform.runLater(map::show);
-            map.removeDead();
+
+            map.generateGrass();
             Platform.runLater(map::show);
 
             animalsList.removeAll(toRemove);

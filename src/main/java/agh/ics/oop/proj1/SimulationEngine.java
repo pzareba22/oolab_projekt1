@@ -10,6 +10,10 @@ package agh.ics.oop.proj1;
 
 import javafx.application.Platform;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
+
 public class SimulationEngine implements Runnable {
 
     public final int refreshTime;
@@ -50,27 +54,38 @@ public class SimulationEngine implements Runnable {
 
     @Override
     public void run() {
-
+        LinkedList<Animal> toRemove = new LinkedList<>();
+        Platform.runLater(map::show);
         while(true){
+            if(animalsList.isEmpty()){
+                break;
+            }
             synchronized (lock) {
-                while (!isRunning) {
-                    try {
-                        lock.wait();
-                    }
-                    catch (InterruptedException e){
-
-                    }
+                while (!isRunning) try {
+                    lock.wait();
+                } catch (InterruptedException ignored) {
                 }
             }
             try{
                 Thread.sleep(refreshTime);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {}
+
+            for(Animal animal: animalsList){
+                animal.move();
+                animal.decrementEnergy();
+                if(animal.getEnergy() <= 0){
+                    toRemove.add(animal);
+                }
             }
-
+            Platform.runLater(map::show);
+            map.eatGrass();
+            Platform.runLater(map::show);
             map.generateGrass();
-            Platform.runLater(() -> map.show());
-            System.out.println(engineName + ":\tYet another day passes (" + ++dayCount + ")");
+            Platform.runLater(map::show);
+            map.removeDead();
+            Platform.runLater(map::show);
 
+            animalsList.removeAll(toRemove);
 
         }
     }
@@ -85,8 +100,7 @@ public class SimulationEngine implements Runnable {
     }
 
     public boolean getRunning(){
-        boolean res = isRunning;
-        return res;
+        return isRunning;
     }
 
 }

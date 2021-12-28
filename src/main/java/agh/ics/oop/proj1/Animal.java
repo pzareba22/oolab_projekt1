@@ -7,24 +7,31 @@ public class Animal{
 
     private int orientation;
     private int energy;
-    private final int[] genotype;
+    public final int[] genotype;
     private Vector2d position;
     private int rotation;
     private final Map map;
 
-    Animal(Vector2d position, int energy, Map map) {
+    Animal(Vector2d position, int energy, Map map, int[] genotype) {
         this.genotype = new int[32];
         this.position = position;
         this.map = map;
         this.rotation = (new Random()).nextInt(8);
         this.energy = energy;
+
+        if(genotype==null){
+            this.generateRandomGenotype();
+        }else if(genotype.length != 32){
+            throw new IllegalArgumentException();
+        }
+
     }
 
     public int getEnergy(){
         return energy;
     }
 
-    public void generateRandomGenotype(){
+    private void generateRandomGenotype(){
         Random random = new Random();
         int sum = 0;
 

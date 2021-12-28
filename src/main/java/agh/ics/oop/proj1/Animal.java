@@ -16,10 +16,15 @@ public class Animal{
     private int energy;
     private final int[] genotype;
     private Vector2d position;
+    private int rotation;
+    private final Map map;
 
-    Animal(Vector2d position, int energy) {
+    Animal(Vector2d position, int energy, Map map) {
         this.genotype = new int[32];
         this.position = position;
+        this.map = map;
+        this.rotation = (new Random()).nextInt(8);
+        this.energy = energy;
     }
 
     public int getEnergy(){
@@ -74,6 +79,30 @@ public class Animal{
         Random random = new Random();
         int index = random.nextInt(32);
         int move = genotype[index];
+        if(move == 0 || move == 4){
+            Vector2d oldPosition = new Vector2d(position.x, position.y);
+            Vector2d positionDiff = switch (rotation){
+                case 0 -> new Vector2d(0, -1);
+                case 1 -> new Vector2d(1, -1);
+                case 2 -> new Vector2d(1, 0);
+                case 3 -> new Vector2d(1, 1);
+                case 4 -> new Vector2d(0, 1);
+                case 5 -> new Vector2d(-1, 1);
+                case 6 -> new Vector2d(-1, 0);
+                case 7 -> new Vector2d(-1, -1);
+                default -> throw new IllegalStateException("Unexpected value: " + rotation);
+            };
+            if(move == 4){
+                 positionDiff =  positionDiff.opposite();
+            }
+            Vector2d newPosition = position.add(positionDiff);
+            if(map.canMoveTo(newPosition)){
+                position = newPosition;
+                map.animalPositionChanged(this, oldPosition, position);
+            }
+        } else{
+            rotation = (rotation+move)%8;
+        }
     }
 
     public Vector2d getPosition(){

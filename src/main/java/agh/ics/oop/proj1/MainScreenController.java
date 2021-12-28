@@ -98,7 +98,7 @@ public class MainScreenController {
 
 
         for (int i = 0; i < simulationsNumber; i++) {
-            engines[i] = new SimulationEngine("Engine " + i, refreshFrequency, maps[i]);
+            engines[i] = new SimulationEngine("Engine " + i, refreshFrequency, maps[i], animalNumber);
             engineThreads[i] = new Thread(engines[i]);
 
             engineThreads[i].setDaemon(true);

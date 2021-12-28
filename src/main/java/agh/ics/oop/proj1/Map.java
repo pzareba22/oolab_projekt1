@@ -137,7 +137,6 @@ public class Map {
 
     }
 
-
     // funkcja generująca 2 'porcje' trawy (w dżungli i poza nią)
     public void generateGrass(){
         //generowanie trawy w dżungli
@@ -186,14 +185,36 @@ public class Map {
     }
 
     public void animalPositionChanged(Animal animal, Vector2d oldPosition, Vector2d newPosition){
-        animalMap.get(oldPosition).remove(animal);
-//        removeCircle(oldPosition);
-        if(animalMap.get(oldPosition).isEmpty()){
-            animalMap.remove(oldPosition);
-        }else{
-//            addCircle(oldPosition);
+
+        if(isMagical){
+            if(newPosition.x < 0 || newPosition.y < 0 || newPosition.x >= width || newPosition.y >= height){
+                int newX = newPosition.x;
+                int newY = newPosition.y;
+
+                if(newX == -1){
+                    newX = width-1;
+                }else if(newX == width){
+                    newX = 0;
+                }
+                if(newY == -1){
+                    newY = height-1;
+                }else if(newY == height){
+                    newY = 0;
+                }
+
+                Vector2d newerPosition = new Vector2d(newX, newY);
+                newPosition = newerPosition;
+                animal.setPosition(newerPosition);
+            }
         }
 
+        // usuwanie starej pozycji
+        animalMap.get(oldPosition).remove(animal);
+        if(animalMap.get(oldPosition).isEmpty()){
+            animalMap.remove(oldPosition);
+        }
+
+        // dodawanie nowej pozycji
         if(!animalMap.containsKey(newPosition)){
             LinkedList<Animal> list = new LinkedList<>();
             list.add(animal);
@@ -201,6 +222,7 @@ public class Map {
         }else{
             animalMap.get(newPosition).add(animal);
         }
+
         if(grassMap.containsKey(newPosition)){
             if(grassToBeEaten == null){
                 grassToBeEaten = new LinkedList<>();
@@ -257,6 +279,9 @@ public class Map {
             return;
         }
         for(Vector2d position : grassToBeEaten){
+            if(animalMap.get(position) == null){
+                continue;
+            }
             LinkedList<Animal> animalList = animalMap.get(position);
             Animal strongestAnimal = animalList.getFirst();
             int strongestCount = 0;
@@ -284,15 +309,89 @@ public class Map {
 
     public void animalDied(Animal animal){
         deadAnimals.add(animal);
+        animalNumber -= 1;
     }
 
     public void removeDead(){
         for(Animal animal : deadAnimals){
+//            if(animalMap.get(animal.getPosition()) == null){
+//                continue;
+//            }
             animalMap.get(animal.getPosition()).remove(animal);
             if(animalMap.get(animal.getPosition()).isEmpty()){
                 animalMap.remove(animal.getPosition());
             }
         }
+        deadAnimals.clear();
+    }
+
+    public ArrayList<Animal> selectAnimalsForBreeding() {
+        ArrayList<Animal> animalsToBreed = new ArrayList<>();
+
+        for(LinkedList<Animal> animalList: animalMap.values()){
+            if(animalList.size() < 2){
+                continue;
+            }
+
+            Animal strongest1 = animalList.getFirst();
+            Animal strongest2 = null;
+            int strongestCount = 0;
+            for(Animal animal : animalList){
+                if(animal.getEnergy() > strongest1.getEnergy()){
+                    strongest1 = animal;
+                    strongestCount = 1;
+                }else if (animal.getEnergy() == strongest1.getEnergy()){
+                    strongestCount += 1;
+                }
+            }
+
+            if(strongestCount > 2){
+                int j = 0;
+                Random random = new Random();
+                int ind1 = random.nextInt(strongestCount);
+                int ind2;
+                while (true){
+                    ind2 = random.nextInt(strongestCount);
+                    if(ind2 != ind1){
+                        break;
+                    }
+                }
+
+                int cnt = 0;
+                for(Animal animal : animalList){
+                    if(animal.getEnergy() == strongest1.getEnergy()){
+                        if(cnt == ind1){
+                            strongest1 = animal;
+                        }else if(cnt == ind2){
+                            strongest2 = animal;
+                        }
+                        cnt += 1;
+                    }
+                }
+            }else if(strongestCount == 2){
+                for(Animal animal : animalList){
+                    if(animal.getEnergy() == strongest1.getEnergy() && animal != strongest1){
+                        strongest2 = animal;
+                        break;
+                    }
+                }
+            }else {
+                int energy = 0;
+                for(Animal animal : animalList){
+                    if(animal != strongest1 && animal.getEnergy() > energy){
+                        energy = animal.getEnergy();
+                        strongest2 = animal;
+                    }
+                }
+            }
+
+            if(strongest2.getEnergy() >= startEnergy/2){
+                animalsToBreed.add(strongest1);
+                animalsToBreed.add(strongest2);
+            }
+
+        }
+        return animalsToBreed;
     }
 
 }

@@ -401,6 +401,7 @@ public class Map {
                     if(animal != strongest1 && animal.getEnergy() > energy){
                         energy = animal.getEnergy();
                         strongest2 = animal;
+                        break;
                     }
                 }
             }

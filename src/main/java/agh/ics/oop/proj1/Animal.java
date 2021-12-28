@@ -18,9 +18,10 @@ public class Animal{
     private int descendants;
     public boolean isDead;
     public Animal parent1, parent2;
+    public final int birthDay;
     public int deathDay;
 
-    Animal(Vector2d position, int energy, Map map, int[] genotype) {
+    Animal(Vector2d position, int energy, Map map, int[] genotype, int birthDay) {
         this.genotype = new int[32];
         this.position = position;
         this.map = map;
@@ -29,6 +30,7 @@ public class Animal{
         this.isDead = false;
         this.parent1 = null;
         this.parent2 = null;
+        this.birthDay = birthDay;
 
         if(genotype==null){
             this.generateRandomGenotype();
@@ -128,7 +130,7 @@ public class Animal{
         energy += energyGain;
     }
 
-    public Animal breed(Animal other){
+    public Animal breed(Animal other, int day){
 
 
         if(this == other){
@@ -170,7 +172,7 @@ public class Animal{
         stronger.decreaseEnergy(stronger.getEnergy()/4);
         weaker.decreaseEnergy(weaker.getEnergy()/4);
 
-        Animal child = new Animal(stronger.getPosition(), childEnergy, stronger.map, newGenotype);
+        Animal child = new Animal(stronger.getPosition(), childEnergy, stronger.map, newGenotype, day);
 
         child.setParents(stronger, weaker);
         stronger.children += 1;

@@ -10,6 +10,7 @@ package agh.ics.oop.proj1;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.text.Text;
 
 import java.util.*;
 
@@ -24,13 +25,19 @@ public class SimulationEngine implements Runnable {
     public final boolean isMagical;
     private final PlotHandler plotHanlder;
 
-
     private volatile boolean isRunning;
     private final Object lock;
 
     private final MainScreenController controller;
+    private final Text dayCountField;
 
-    SimulationEngine(String engineName, int refreshTime, Map map, int animalNumber, boolean isMagical, MainScreenController controller, Canvas plotCanvas){
+    public final ArrayList<Integer> animalCountHistory;
+    public final ArrayList<Integer> grassCountHistory;
+    public final ArrayList<Integer> avgEnergyHistory;
+    public final ArrayList<Integer> avgLifespanHistory;
+    public final ArrayList<Integer> avgChildCountHistory;
+
+    SimulationEngine(String engineName, int refreshTime, Map map, int animalNumber, boolean isMagical, MainScreenController controller, Canvas plotCanvas, Text dayCountField){
         this.engineName = engineName;
         this.refreshTime = refreshTime;
         this.map = map;
@@ -41,6 +48,8 @@ public class SimulationEngine implements Runnable {
         this.isMagical = isMagical;
         this.controller = controller;
         this.plotHanlder = new PlotHandler(plotCanvas.getGraphicsContext2D(), (int)plotCanvas.getWidth(), (int)plotCanvas.getHeight());
+        this.dayCountField = dayCountField;
+
         for (int i = 0; i < animalNumber; i++) {
             Random random = new Random();
             HashSet<Vector2d> positions = new HashSet<>();
@@ -50,13 +59,18 @@ public class SimulationEngine implements Runnable {
                 Vector2d position = new Vector2d(x, y);
                 if(!positions.contains(position)){
                     positions.add(position);
-                    Animal animal = new Animal(position, map.startEnergy, this.map, null);
+                    Animal animal = new Animal(position, map.startEnergy, this.map, null, 1);
                     this.animalsList.add(animal);
                     this.map.place(animal);
                     break;
                 }
             }
         }
+        animalCountHistory = new ArrayList<>();
+        grassCountHistory = new ArrayList<>();
+        avgEnergyHistory = new ArrayList<>();
+        avgLifespanHistory = new ArrayList<>();
+        avgChildCountHistory = new ArrayList<>();
     }
 
     @Override
@@ -78,16 +92,28 @@ public class SimulationEngine implements Runnable {
                 Thread.sleep(refreshTime);
             } catch (InterruptedException ignored) {}
 
+            int energyCount = 0;
+            int livingCount = 0;
+            int deadCount = 0;
+            int daysLived = 0;
+            int childCount = 0;
+
             // ruchy zwierzat
             for(Animal animal: animalsList){
                 animal.move();
                 animal.decreaseEnergy(1);
                 if(animal.getEnergy() <= 0){
                     toRemove.add(animal);
+                    deadCount += 1;
                     animal.deathDay = dayCount;
+                    daysLived += animal.deathDay - animal.birthDay;
                     animal.isDead = true;
                     if(animal == controller.watchedAnimal)
                         controller.updateWatchedAnimal(dayCount);
+                }else{
+                    energyCount += animal.getEnergy();
+                    livingCount += 1;
+                    childCount += animal.getChildren();
                 }
             }
             Platform.runLater(map::show);
@@ -101,7 +127,7 @@ public class SimulationEngine implements Runnable {
             //rozmnażanie zwierząt
             ArrayList<Animal> animalsToBreed = map.selectAnimalsForBreeding();
             for (int i = 0; i < animalsToBreed.size(); i+=2) {
-                Animal child = animalsToBreed.get(i).breed(animalsToBreed.get(i+1));
+                Animal child = animalsToBreed.get(i).breed(animalsToBreed.get(i+1), dayCount);
                 animalsList.add(child);
                 map.place(child);
             }
@@ -121,13 +147,24 @@ public class SimulationEngine implements Runnable {
                 controller.updateWatchedAnimal(-1);
             }
 
-            Platform.runLater(() -> plotHanlder.updatePlot(animalsList.size(), map.getGrassCount()));
-//            plotHanlder.addData(animalsList.size(), map.getGrassCount());
-//            Platform.runLater(() -> plotHanlder.drawFromScratch());
+            int avgEnergy = energyCount/livingCount;
+            int avgLifespan = deadCount > 0 ? daysLived/deadCount: 0;
+            int avgChildCount = childCount/livingCount;
+
+            Platform.runLater(() -> plotHanlder.updatePlot(animalsList.size(), map.getGrassCount(), avgEnergy, avgLifespan, avgChildCount));
+
+            animalCountHistory.add(animalsList.size());
+            grassCountHistory.add(map.getGrassCount());
+            avgEnergyHistory.add(avgEnergy);
+            avgLifespanHistory.add(avgLifespan);
+            avgChildCountHistory.add(avgChildCount);
 
 
 
             dayCount += 1;
+
+            Platform.runLater(() -> dayCountField.setText("Dzien: " + dayCount));
+
 
         }
     }
@@ -156,9 +193,8 @@ public class SimulationEngine implements Runnable {
                 Vector2d position = new Vector2d(x, y);
                 if(!positions.contains(position)){
                     positions.add(position);
-                    Animal newAnimal = new Animal(position, map.startEnergy, map, Arrays.copyOf(animal.genotype, 32));
+                    Animal newAnimal = new Animal(position, map.startEnergy, map, Arrays.copyOf(animal.genotype, 32), dayCount);
                     newAnimals.add(newAnimal);
-                    map.place(newAnimal);
                     break;
                 }
             }

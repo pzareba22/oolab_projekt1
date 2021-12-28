@@ -71,4 +71,4 @@
 - [ ] opisy wykresu
 - [x] wykresy dla 2 plansz
 - [x] Wykresy
-- [ ] Zapisywanie do CSV
+- [x] Zapisywanie do CSV

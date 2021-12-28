@@ -11,6 +11,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class MainScreenController {
     int[] parameters;
@@ -22,9 +25,10 @@ public class MainScreenController {
     private int simulationsNumber;
     public Animal watchedAnimal;
     private Canvas[] canvasArray;
+    private Text[] dayCountArray;
 
     @FXML
-    private Button runButton;
+    private Button runButton, saveButton1, saveButton2;
 
     @FXML
     private GridPane pane1, pane2;
@@ -35,7 +39,8 @@ public class MainScreenController {
     @FXML
     private VBox watchBox;
 
-    private Text childNumber, descendantsNumber, deathDay, genotypeLabel, genotypeText;
+    @FXML
+    private Text childNumber, descendantsNumber, deathDay, genotypeLabel, genotypeText, dayCount1, dayCount2;
 
     @FXML
     public Canvas plotCanvas, plotCanvas2;
@@ -65,6 +70,54 @@ public class MainScreenController {
         running = !running;
     }
 
+    public void saveButton1Clicked(ActionEvent e) throws IOException {
+        FileWriter writer = new FileWriter("data1.csv");
+        writer.write("animal count,grass count,average energy,average lifespan,average children\n");
+        int n = engines[0].avgChildCountHistory.size();
+
+        for (int i = 0; i < n; i++) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(engines[0].animalCountHistory.get(i));
+            builder.append(",");
+            builder.append(engines[0].grassCountHistory.get(i));
+            builder.append(",");
+            builder.append(engines[0].avgEnergyHistory.get(i));
+            builder.append(",");
+            builder.append(engines[0].avgLifespanHistory.get(i));
+            builder.append(",");
+            builder.append(engines[0].avgChildCountHistory.get(i));
+            builder.append("\n");
+            writer.write(builder.toString());
+            writer.flush();
+        }
+        writer.flush();
+        writer.close();
+    }
+
+    public void saveButton2Clicked(ActionEvent e) throws IOException {
+        FileWriter writer = new FileWriter("data2.csv");
+        writer.write("animal count,grass count,average energy,average lifespan,average children\n");
+        int n = engines[1].avgChildCountHistory.size();
+
+        for (int i = 0; i < n; i++) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(engines[1].animalCountHistory.get(i));
+            builder.append(",");
+            builder.append(engines[1].grassCountHistory.get(i));
+            builder.append(",");
+            builder.append(engines[1].avgEnergyHistory.get(i));
+            builder.append(",");
+            builder.append(engines[1].avgLifespanHistory.get(i));
+            builder.append(",");
+            builder.append(engines[1].avgChildCountHistory.get(i));
+            builder.append("\n");
+            writer.write(builder.toString());
+            writer.flush();
+        }
+        writer.flush();
+        writer.close();
+    }
+
     public void loadData(int[] parameters){
         this.parameters = parameters;
 
@@ -88,10 +141,16 @@ public class MainScreenController {
         if(mapMode < 2){
             mainPane.getChildren().remove(pane2);
             mainPane.getChildren().remove(plotPane2);
-            pane1.setPrefHeight(550);
-            pane1.setPrefWidth(550);
-            pane1.setLayoutX(494);
+            mainPane.getChildren().remove(dayCount2);
+            mainPane.getChildren().remove(saveButton2);
+            pane1.setPrefHeight(500);
+            pane1.setPrefWidth(500);
+            pane1.setLayoutX(525);
             pane1.setLayoutY(24);
+            dayCount1.setLayoutX(387.0);
+            dayCount1.setLayoutY(301.0);
+            saveButton1.setLayoutX(730);
+            saveButton1.setLayoutY(530);
         }
 
 
@@ -99,6 +158,7 @@ public class MainScreenController {
         engineThreads = new Thread[simulationsNumber];
         maps = new Map[simulationsNumber];
         canvasArray = new Canvas[simulationsNumber];
+        dayCountArray = new Text[simulationsNumber];
 
         switch (mapMode){
             case 2 -> {
@@ -106,23 +166,25 @@ public class MainScreenController {
                 maps[1] = new Map(parameters, false, pane2, this);
                 canvasArray[0] = plotCanvas;
                 canvasArray[1] = plotCanvas2;
+                dayCountArray[0] = dayCount1;
+                dayCountArray[1] = dayCount2;
+
             }
             case 1 -> {
                 maps[0] = new Map(parameters, true, pane1, this);
                 canvasArray[0] = plotCanvas;
+                dayCountArray[0] = dayCount1;
             }
             default -> {
                 maps[0] = new Map(parameters, false, pane1, this);
+                dayCountArray[0] = dayCount1;
                 canvasArray[0] = plotCanvas;
             }
         }
 
 
         for (int i = 0; i < simulationsNumber; i++) {
-            engines[i] = new SimulationEngine("Engine " + i, refreshFrequency, maps[i], animalNumber, isMagical, this, canvasArray[i]);
-            if(isMagical){
-                System.out.println("MAGICZNA SYMULACJA");
-            }
+            engines[i] = new SimulationEngine("Engine " + i, refreshFrequency, maps[i], animalNumber, isMagical, this, canvasArray[i], dayCountArray[i]);
             engineThreads[i] = new Thread(engines[i]);
             engineThreads[i].setDaemon(true);
             engineThreads[i].start();
@@ -178,4 +240,5 @@ public class MainScreenController {
             deathDay.setText("Dzien smierci: " + death);
         }
     }
+
 }

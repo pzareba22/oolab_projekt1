@@ -3,25 +3,36 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="593.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.proj1.MainScreenController">
+<AnchorPane fx:id="mainPane" prefHeight="757.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.proj1.MainScreenController">
    <children>
-      <Text layoutX="120.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </Text>
       <GridPane fx:id="pane1" alignment="CENTER" layoutX="398.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #97f227;" />
       <GridPane fx:id="pane2" layoutX="769.0" layoutY="144.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #97f227;" />
-      <Button fx:id="runButton" layoutX="109.0" layoutY="537.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
-      <VBox fx:id="watchBox" layoutX="41.0" layoutY="77.0" prefHeight="119.0" prefWidth="273.0" style="-fx-background-color: #ddd;" />
-      <StackPane layoutX="62.0" layoutY="212.0" prefHeight="134.0" prefWidth="230.0" style="-fx-background-color: #fff;">
+      <Button fx:id="runButton" layoutX="109.0" layoutY="669.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="26.0" prefWidth="120.0" text="Button" />
+      <VBox fx:id="watchBox" layoutX="40.0" layoutY="42.0" prefHeight="119.0" prefWidth="273.0" style="-fx-background-color: #ddd;" />
+      <StackPane layoutX="62.0" layoutY="181.0" prefHeight="134.0" prefWidth="230.0" style="-fx-background-color: #fff;">
          <children>
             <Canvas fx:id="plotCanvas" height="144.0" width="229.0" />
          </children></StackPane>
-      <StackPane fx:id="plotPane2" layoutX="62.0" layoutY="372.0" prefHeight="134.0" prefWidth="230.0" style="-fx-background-color: #fff;">
+      <StackPane fx:id="plotPane2" layoutX="62.0" layoutY="344.0" prefHeight="134.0" prefWidth="230.0" style="-fx-background-color: #fff;">
             <Canvas fx:id="plotCanvas2" height="144.0" width="229.0" />
       </StackPane>
+      <Text fx:id="dayCount1" layoutX="514.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzien: 2" />
+      <Text fx:id="dayCount2" layoutX="886.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzien: 2" />
+      <Button fx:id="saveButton1" layoutX="490.0" layoutY="503.0" mnemonicParsing="false" onAction="#saveButton1Clicked" text="Zapisz do CSV" />
+      <Button fx:id="saveButton2" layoutX="861.0" layoutY="503.0" mnemonicParsing="false" onAction="#saveButton2Clicked" text="Zapisz do CSV" />
+      <Text layoutX="170.0" layoutY="516.0" strokeType="OUTSIDE" strokeWidth="0.0" text="liczba zwierząt" />
+      <Text layoutX="177.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="liczba roślin" />
+      <Text layoutX="150.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" text="średni poziom energii" />
+      <Text layoutX="150.0" layoutY="583.0" strokeType="OUTSIDE" strokeWidth="0.0" text="średnia długość życia" />
+      <Text layoutX="155.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="średnia liczba dzieci" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="BLUE" height="17.0" layoutX="101.0" layoutY="503.0" stroke="BLACK" strokeType="INSIDE" width="17.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGREEN" height="17.0" layoutX="101.0" layoutY="525.0" stroke="BLACK" strokeType="INSIDE" width="17.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="17.0" layoutX="101.0" layoutY="548.0" stroke="BLACK" strokeType="INSIDE" width="17.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SALMON" height="17.0" layoutX="101.0" layoutY="570.0" stroke="BLACK" strokeType="INSIDE" width="17.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DEEPPINK" height="17.0" layoutX="101.0" layoutY="594.0" stroke="BLACK" strokeType="INSIDE" width="17.0" />
+      <Text layoutX="101.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Podglad statystyk zwierzatka" />
    </children>
 </AnchorPane>

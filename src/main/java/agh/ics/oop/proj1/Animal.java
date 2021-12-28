@@ -102,8 +102,8 @@ public class Animal{
     public void setPosition(Vector2d position){
         this.position = position;
     }
-    public void decrementEnergy(){
-        energy -= 1;
+    public void decreaseEnergy(int energyLoss){
+        energy -= energyLoss;
         if(energy <= 0){
             map.animalDied(this);
             energy = 0;

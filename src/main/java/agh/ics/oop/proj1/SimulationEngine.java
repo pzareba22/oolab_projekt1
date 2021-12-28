@@ -72,7 +72,7 @@ public class SimulationEngine implements Runnable {
 
             for(Animal animal: animalsList){
                 animal.move();
-                animal.decrementEnergy();
+                animal.decreaseEnergy(1);
                 if(animal.getEnergy() <= 0){
                     toRemove.add(animal);
                 }

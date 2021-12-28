@@ -12,11 +12,11 @@
 - minimalna energia do kopulacji
 - częstotliwość odświeżania
 
-### Co może się znajdować na mapie?
+## Co może się znajdować na mapie?
 - zwierzę
 - trawa
 - dżungla (podłoga)
-- sawanna (pustynia)
+- sawanna (podłoga)
 
 ## Cykl dnia
 - usunięcie martwych zwierząt z mapy
@@ -24,6 +24,21 @@
 - zjadanie roślin
 - rozmnażanie zwierząt
 - dodanie roślin
+
+## Rozmnażanie
+- Oba zwierzęta muszą mieć energię >= pewnej wartości (parametr startowy)
+- Rodzice tracą 1/4 swojej energii na rzecz dziecka
+- Podział genów rodziców jest proporcjonalny do ich udziału w energii dziecka
+- Najpierw jest losowana strona z której będą geny "silniejszego" rodzica
+
+#### Gdzie powinno być zdefiniowane rozmnażanie:
+- W klasie Animal (drugie zwierzę jako parametr, dziecko jako wartość zwracana, mapa wywołuje place) 
+- W klasie Map (brzydko)
+- W klasie SimulationEngine (po co xD)
+#### Jak wybrać zwierzęta do rozmnażania i gdzie je wywołać?
+- 2 Najsilniejsze zwierzęta na danym polu(jeśli mają wystarczającą energię)(jeśli więcej to losujemy)
+- Wywołać w SimulationEngine
+
 
 ##TODO
 - [x] Generowanie dżungli
@@ -40,9 +55,11 @@
 - [x] Jedzenie trawy przez zwierzątka
 - [x] Energia zwierzątek (kolory)
 - [x] SMIERC
-- [ ] Rozmnażanie zwierzątek
-- [ ] Zwierzątka
-- [ ] "Magiczność" mapy
+- [x] Bug z brakiem listy w hashmapie (removeDead)
+- [x] Bug - Zwierzątko może umrzeć tuż przed zjedzeniem trawy
+- [x] Rozmnażanie zwierzątek
+- [x] Zwierzątka
+- [x] "Magiczność" mapy
 - [ ] Klikanie na zwierzątka
 - [ ] Wykresy
 - [ ] Zapisywanie do CSV

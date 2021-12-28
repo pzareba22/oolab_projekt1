@@ -92,4 +92,17 @@ public class Animal{
     public Vector2d getPosition(){
         return this.position;
     }
+    public void setPosition(Vector2d position){
+        this.position = position;
+    }
+    public void decrementEnergy(){
+        energy -= 1;
+        if(energy <= 0){
+            map.animalDied(this);
+            energy = 0;
+        }
+    }
+    public void increaseEnergy(int energyGain){
+        energy += energyGain;
+    }
 }

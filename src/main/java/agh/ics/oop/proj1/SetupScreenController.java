@@ -35,10 +35,10 @@ public class SetupScreenController {
         mapWidth.setText("15");
         jungleHeight.setText("3");
         jungleWidth.setText("4");
-        animalNumber.setText("5");
-        grassEnergy.setText("6");
-        startEnergy.setText("7");
-        refreshFrequency.setText("400");
+        animalNumber.setText("25");
+        grassEnergy.setText("10");
+        startEnergy.setText("15");
+        refreshFrequency.setText("100");
 
         evolutionModeBox.setItems(evolutionModeList);
         evolutionModeBox.setValue("Zwykla");

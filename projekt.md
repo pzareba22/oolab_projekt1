@@ -18,7 +18,12 @@
 - dżungla (podłoga)
 - sawanna (pustynia)
 
-
+## Cykl dnia
+- usunięcie martwych zwierząt z mapy
+- ruchy zwierząt
+- zjadanie roślin
+- rozmnażanie zwierząt
+- dodanie roślin
 
 ##TODO
 - [x] Generowanie dżungli
@@ -26,12 +31,18 @@
 - [x] Generowanie trawy
 - [x] Dodać wybór częstotliwości odświeżania
 - [x] Uwzględnić ujemne licznby przy walidacji
-- [ ] Zwierzątka
-- [ ] Ruch zwierzątek
-- [ ] Energia zwierzątek (kolory)
-- [ ] Jedzenie trawy przez zwierzątka
-- [ ] "Magiczność" mapy
+- [x] Hashmapa list na zwierzątka
+- [x] Usunąć energię potrzebną do rozmnażania jako parametr
+- [x] Zaimplementować canMoveTo
+- [x] Usuwanie starych kółek z mapy
+- [x] Poprawić metodę show
+- [x] Ruch zwierzątek
+- [x] Jedzenie trawy przez zwierzątka
+- [x] Energia zwierzątek (kolory)
+- [x] SMIERC
 - [ ] Rozmnażanie zwierzątek
+- [ ] Zwierzątka
+- [ ] "Magiczność" mapy
 - [ ] Klikanie na zwierzątka
 - [ ] Wykresy
 - [ ] Zapisywanie do CSV

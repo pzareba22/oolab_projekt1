@@ -1,5 +1,8 @@
 package agh.ics.oop.proj1;
 
+import javafx.scene.Parent;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class Animal{
@@ -11,6 +14,11 @@ public class Animal{
     private Vector2d position;
     private int rotation;
     private final Map map;
+    private int children;
+    private int descendants;
+    public boolean isDead;
+    public Animal parent1, parent2;
+    public int deathDay;
 
     Animal(Vector2d position, int energy, Map map, int[] genotype) {
         this.genotype = new int[32];
@@ -18,11 +26,18 @@ public class Animal{
         this.map = map;
         this.rotation = (new Random()).nextInt(8);
         this.energy = energy;
+        this.isDead = false;
+        this.parent1 = null;
+        this.parent2 = null;
 
         if(genotype==null){
             this.generateRandomGenotype();
         }else if(genotype.length != 32){
             throw new IllegalArgumentException();
+        }else{
+            for (int i = 0; i < 32; i++) {
+                this.genotype[i] = genotype[i];
+            }
         }
 
     }
@@ -106,6 +121,7 @@ public class Animal{
         energy -= energyLoss;
         if(energy <= 0){
             map.animalDied(this);
+            isDead = true;
         }
     }
     public void increaseEnergy(int energyGain){
@@ -155,12 +171,58 @@ public class Animal{
         weaker.decreaseEnergy(weaker.getEnergy()/4);
 
         Animal child = new Animal(stronger.getPosition(), childEnergy, stronger.map, newGenotype);
-        System.out.println("BREEDING AUUU");
-        System.out.println("New child parameters");
-        System.out.println("\tposition: " + child.getPosition());
-        System.out.println("\tenergy " + child.getEnergy());
-        System.out.println("\t parents energy after: " + stronger.getEnergy() + ", " + weaker.getEnergy());
+
+        child.setParents(stronger, weaker);
+        stronger.children += 1;
+        weaker.children += 1;
+        stronger.descendants += 1;
+        weaker.descendants += 1;
+        stronger.updateParent1descendants();
+        if(stronger.parent1 != weaker.parent1){
+            weaker.updateParent1descendants();
+        }
+        stronger.updateParent2descendants();
+        if(stronger.parent2 != weaker.parent2){
+            weaker.updateParent2descendants();
+        }
+
 
         return child;
     }
+
+    public int getChildren(){
+        return children;
+    }
+
+    public int getDescendants(){
+        return descendants;
+    }
+
+    public void setParents(Animal parent1, Animal parent2){
+        this.parent1 = parent1;
+        this.parent2 = parent2;
+    }
+
+    public void updateParent1descendants(){
+        if(parent1 != null){
+            parent1.descendants += 1;
+            parent1.updateParent1descendants();
+            parent1.updateParent2descendants();
+        }
+    }
+    public void updateParent2descendants(){
+        if(parent2 != null){
+            parent2.descendants += 1;
+            parent1.updateParent1descendants();
+            parent1.updateParent2descendants();
+
+        }
+    }
+
+    public void setWatched(){
+        this.children = 0;
+        this.descendants = 0;
+    }
+
+
 }

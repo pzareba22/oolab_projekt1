@@ -3,6 +3,7 @@ package agh.ics.oop.proj1;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -20,22 +21,24 @@ public class Map {
     public int animalNumber;
     public final int grassEnergy;
     public final int startEnergy;
-    public final boolean isMagical;
+    public final boolean isWrapped;
     private final GridPane gridPane;
     public final double gridSquareSide;
     public final int jungleX;
     public final int jungleY;
     public final boolean[][] foodMap;
     public final HashMap<Vector2d, LinkedList<Animal>> animalMap;
-    public final HashMap<Vector2d, Rectangle> grassMap;
+    private final HashSet<Vector2d> grassMap;
     private final Vector2d upperRight;
     private final Vector2d lowerLeft;
     private final HashMap<Vector2d, Circle> circleMap;
     private LinkedList<Vector2d> grassToBeEaten;
     private LinkedList<Animal> deadAnimals;
+//    private final SimulationEngine engine;
+    private final MainScreenController controller;
 
 
-    Map(int[] parameters, boolean isMagical, GridPane gridPane){
+    Map(int[] parameters, boolean isWrapped, GridPane gridPane, MainScreenController controller){
 
 //      inicjalizacja pól
         this.height = parameters[0];
@@ -45,16 +48,17 @@ public class Map {
         this.animalNumber = parameters[4];
         this.grassEnergy = parameters[5];
         this.startEnergy = parameters[6];
-        this.isMagical = isMagical;
+        this.isWrapped = isWrapped;
         this.gridPane = gridPane;
         this.gridSquareSide = calculateGridSquareSide();
         this.foodMap = new boolean[width][height];
         this.animalMap = new HashMap<>();
-        this.grassMap = new HashMap<>();
+        this.grassMap = new HashSet<>();
         this.upperRight = new Vector2d(width - 1, height - 1);
         this.lowerLeft = new Vector2d(0, 0);
         this.circleMap = new HashMap<>();
         this.deadAnimals = new LinkedList<>();
+        this.controller = controller;
 
 
 //      inicjalizacja wierszy i kolumn w GridPane
@@ -89,7 +93,7 @@ public class Map {
     }
 
     public boolean canMoveTo(Vector2d position){
-        if(isMagical){
+        if(isWrapped){
             return true;
         }
         if(position.follows(lowerLeft) && position.precedes(upperRight)){
@@ -101,6 +105,7 @@ public class Map {
 
     public void show(){
         gridPane.getChildren().clear();
+        LinkedList<GuiElement> toAdd = new LinkedList<>();
 //      umieszczenie prostokąta z dżunglą
         Rectangle rectangle = new Rectangle();
         rectangle.setFill(javafx.scene.paint.Color.web("#1b6b05"));
@@ -111,19 +116,23 @@ public class Map {
         GridPane.setHalignment(rectangle, HPos.CENTER);
         GridPane.setValignment(rectangle, VPos.CENTER);
 
-//        gridPane.add(rectangle, this.jungleX, this.jungleY, jungleWidth, jungleHeight);
-        Platform.runLater(() -> gridPane.add(rectangle, this.jungleX, this.jungleY, jungleWidth, jungleHeight));
+        toAdd.add(new GuiElement(rectangle, jungleX, jungleY, (int) (jungleWidth), (int) (jungleHeight)));
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Vector2d position = new Vector2d(i, j);
                 if(animalMap.containsKey(position)){
-                    addCircle(position);
-                }else if (grassMap.containsKey(position)) {
-                    addSquare(position);
+                    toAdd.add(addCircle(position));
+                }else if (grassMap.contains(position)) {
+                    toAdd.add(addSquare(position));
                 }
             }
         }
+        Platform.runLater(() -> {
+            for(GuiElement element : toAdd){
+                gridPane.add(element.node, element.x, element.y, element.width, element.height);
+            }
+        });
     }
 
     private double calculateGridSquareSide(){
@@ -145,9 +154,9 @@ public class Map {
             int x1 = (width - jungleWidth)/2 + random.nextInt(jungleWidth);
             int y1 = (height - jungleHeight)/2 + random.nextInt(jungleHeight);
             Vector2d position1 = new Vector2d(x1, y1);
-            if(!grassMap.containsKey(position1) && !animalMap.containsKey(position1)){
-//                grassMap.add(position1);
-                addSquare(position1);
+            if(!grassMap.contains(position1) && !animalMap.containsKey(position1)){
+                grassMap.add(position1);
+//                addSquare(position1);
                 break;
             }
         }
@@ -165,8 +174,9 @@ public class Map {
                 }
             }
             Vector2d position2 = new Vector2d(x2, y2);
-            if(!grassMap.containsKey(position2) && !animalMap.containsKey(position2)){
-                addSquare(position2);
+            if(!grassMap.contains(position2) && !animalMap.containsKey(position2)){
+                grassMap.add(position2);
+//                addSquare(position2);
                 break;
             }
         }
@@ -186,7 +196,7 @@ public class Map {
 
     public void animalPositionChanged(Animal animal, Vector2d oldPosition, Vector2d newPosition){
 
-        if(isMagical){
+        if(isWrapped){
             if(newPosition.x < 0 || newPosition.y < 0 || newPosition.x >= width || newPosition.y >= height){
                 int newX = newPosition.x;
                 int newY = newPosition.y;
@@ -223,14 +233,15 @@ public class Map {
             animalMap.get(newPosition).add(animal);
         }
 
-        if(grassMap.containsKey(newPosition)){
+        if(grassMap.contains(newPosition)){
             if(grassToBeEaten == null){
                 grassToBeEaten = new LinkedList<>();
             }
             grassToBeEaten.add(newPosition);
         }
     }
-    private void addCircle(Vector2d position){
+
+    private GuiElement addCircle(Vector2d position){
         LinkedList<Animal> animalList = animalMap.get(position);
         Animal strongestAnimal = animalList.getFirst();
         for(Animal animal: animalList){
@@ -238,6 +249,7 @@ public class Map {
                 strongestAnimal = animal;
             }
         }
+
         Circle circle = new Circle();
         circle.setRadius(gridSquareSide/2 - gridSquareSide*0.08);
         int color = strongestAnimal.getEnergy() * 255 / 2 / startEnergy;
@@ -246,17 +258,23 @@ public class Map {
         GridPane.setHalignment(circle, HPos.CENTER);
         GridPane.setValignment(circle, VPos.CENTER);
 
-        circleMap.put(position, circle);
-        Platform.runLater(() -> gridPane.add(circle, position.x, position.y, 1, 1));
+        Animal finalStrongestAnimal = strongestAnimal;
+        circle.addEventHandler(MouseEvent.MOUSE_CLICKED , e -> {
+            finalStrongestAnimal.setWatched();
+            controller.setWatchedAnimal(finalStrongestAnimal);
+
+        });
+
+        return new GuiElement(circle, position.x, position.y, 1, 1);
     }
 
-    private void removeCircle(Vector2d position){
-        Circle circle = circleMap.get(position);
-        circleMap.remove(position);
-        Platform.runLater(() -> gridPane.getChildren().remove(circle));
-    }
+//    private void removeCircle(Vector2d position){
+//        Circle circle = circleMap.get(position);
+//        circleMap.remove(position);
+//        Platform.runLater(() -> gridPane.getChildren().remove(circle));
+//    }
 
-    private void addSquare(Vector2d position){
+    private GuiElement addSquare(Vector2d position){
         Rectangle rectangle = new Rectangle();
         rectangle.setWidth(gridSquareSide*0.9);
         rectangle.setHeight(gridSquareSide*0.9);
@@ -264,15 +282,17 @@ public class Map {
         GridPane.setHalignment(rectangle, HPos.CENTER);
         GridPane.setValignment(rectangle, VPos.CENTER);
 
-        grassMap.put(position, rectangle);
-        Platform.runLater(() -> gridPane.add(rectangle, position.x, position.y, 1, 1));
+        grassMap.add(position);
+
+        return new GuiElement(rectangle, position.x, position.y, 1, 1);
+//        Platform.runLater(() -> gridPane.add(rectangle, position.x, position.y, 1, 1));
     }
 
-    private void removeSquare(Vector2d position){
-        Rectangle rectangle = grassMap.get(position);
-        grassMap.remove(position);
-        Platform.runLater(() -> gridPane.getChildren().remove(rectangle));
-    }
+//    private void removeSquare(Vector2d position){
+//        Rectangle rectangle = grassMap.get(position);
+//        grassMap.remove(position);
+//        Platform.runLater(() -> gridPane.getChildren().remove(rectangle));
+//    }
 
     public void eatGrass(){
         if(grassToBeEaten == null){
@@ -392,6 +412,10 @@ public class Map {
 
         }
         return animalsToBreed;
+    }
+
+    public int getGrassCount(){
+        return grassMap.size();
     }
 
 }

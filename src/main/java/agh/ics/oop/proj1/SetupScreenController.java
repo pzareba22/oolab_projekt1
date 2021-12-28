@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,10 +25,12 @@ public class SetupScreenController {
     @FXML
     private TextField mapHeight, mapWidth, jungleHeight, jungleWidth, animalNumber, grassEnergy, startEnergy, refreshFrequency;
 
-    ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna", "Obie");
+    ObservableList<String> mapModeList = FXCollections.observableArrayList("Zwykla", "Zawinieta", "Obie");
+    ObservableList<String> evolutionModeList = FXCollections.observableArrayList("Zwykla", "Magiczna");
 
     @FXML
-    private ChoiceBox<String> evolutionModeBox;
+    private ChoiceBox<String> mapModeBox, evolutionModeBox;
+
 
     @FXML
     private void initialize() {
@@ -35,10 +38,13 @@ public class SetupScreenController {
         mapWidth.setText("15");
         jungleHeight.setText("3");
         jungleWidth.setText("4");
-        animalNumber.setText("25");
-        grassEnergy.setText("10");
-        startEnergy.setText("15");
-        refreshFrequency.setText("100");
+        animalNumber.setText("15");
+        grassEnergy.setText("30");
+        startEnergy.setText("50");
+        refreshFrequency.setText("50");
+
+        mapModeBox.setItems(mapModeList);
+        mapModeBox.setValue("Zwykla");
 
         evolutionModeBox.setItems(evolutionModeList);
         evolutionModeBox.setValue("Zwykla");
@@ -65,14 +71,16 @@ public class SetupScreenController {
         stage.setScene(scene);
         stage.show();
 
-        int simulationsMode = switch (evolutionModeBox.getValue()) {
-            case "Zwykla" -> 0;
-            case "Magiczna" -> 1;
-            case "Obie" -> 2;
-            default -> 0;
-        };
+        int mapMode = 0;
+        if(mapModeBox.getValue().equals("Zawinieta")){
+            mapMode = 1;
+        }else if(mapModeBox.getValue().equals("Obie")){
+            mapMode = 2;
+        }
 
-        mainScreenController.startSimulation(simulationsMode);
+        boolean evolutionMode = evolutionModeBox.getValue().equals("Magiczna");
+
+        mainScreenController.startSimulation(mapMode, evolutionMode);
     }
 
     private void validateData() throws NumberFormatException {

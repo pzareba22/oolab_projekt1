@@ -29,7 +29,7 @@
 - Oba zwierzęta muszą mieć energię >= pewnej wartości (parametr startowy)
 - Rodzice tracą 1/4 swojej energii na rzecz dziecka
 - Podział genów rodziców jest proporcjonalny do ich udziału w energii dziecka
-- Najpierw jest losowana strona z której będą geny "silniejszego" rodzica
+- Najpierw jest losowana strona, z której będą geny "silniejszego" rodzica
 
 #### Gdzie powinno być zdefiniowane rozmnażanie:
 - W klasie Animal (drugie zwierzę jako parametr, dziecko jako wartość zwracana, mapa wywołuje place) 
@@ -39,6 +39,12 @@
 - 2 Najsilniejsze zwierzęta na danym polu(jeśli mają wystarczającą energię)(jeśli więcej to losujemy)
 - Wywołać w SimulationEngine
 
+## Obserwowanie zwierzątka
+#### Jakie parametry powinno się dać obserwować
+- liczba dzieci
+- liczba potomków
+- dzień śmierci (RIP)
+- genotyp
 
 ##TODO
 - [x] Generowanie dżungli
@@ -60,6 +66,9 @@
 - [x] Rozmnażanie zwierzątek
 - [x] Zwierzątka
 - [x] "Magiczność" mapy
-- [ ] Klikanie na zwierzątka
-- [ ] Wykresy
+- [x] Klikanie na zwierzątka
+- [x] przechowywać liczbę zwierząt i trawy
+- [ ] opisy wykresu
+- [x] wykresy dla 2 plansz
+- [x] Wykresy
 - [ ] Zapisywanie do CSV
